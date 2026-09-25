@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>SafeLift 360 — Interactive Industrial Warehouse Ergonomics Simulator</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="js/three.min.js"></script>
+</head>
+<body>
+
+<div id="app">
+
+  <!-- ===================== 1. PROPER HOME PAGE (LANDING) ===================== -->
+  <div class="screen" id="landingScreen">
+    <div class="hazard-strip"></div>
+    <header class="landing-nav">
+      <div class="landing-nav-logo">
+        SafeLift<span>360</span>
+        <span style="font-size: 10px; font-weight: 800; background: rgba(245,166,35,0.2); color: var(--amber-primary); padding: 3px 8px; border-radius: 10px; letter-spacing: 1px;">VISIONOS</span>
+      </div>
+      <div class="landing-nav-links">
+        <a class="landing-nav-link" onclick="landingScroll('featuresSection')">Core Features</a>
+        <a class="landing-nav-link" onclick="landingScroll('scenariosSection')">6 Loads Catalog</a>
+        <a class="landing-nav-link" onclick="openAdminPortal()">Admin Portal 🔒</a>
+      </div>
+      <button class="btn-primary-action" onclick="goToAuth('login')" style="padding: 9px 18px; font-size: 12.5px;">Worker Sign In →</button>
+    </header>
+
+    <main>
+      <section class="landing-hero">
+        <div class="landing-eyebrow">
+          <span>●</span> University of Sunderland · CET257 Enterprise Project
+        </div>
+        <h1 class="landing-title">
+          SAFELIFT <span>360</span><br>
+          Interactive Manual Handling Simulator
+        </h1>
+        <p class="landing-subtitle">
+          An enterprise-grade 360° virtual reality health &amp; safety training platform engineered for automotive warehouse operatives. Step onto the warehouse floor, inspect realistic loads, and evaluate real-time L5/S1 spinal compression forces to prevent musculoskeletal disorders (MSDs) — no external VR headset or app installation required.
+        </p>
+
+        <div class="meta-pills-row">
+          <div class="meta-pill">CLIENT · <b>Automotive Logistics &amp; Warehousing Co.</b></div>
+          <div class="meta-pill">STANDARD · <b>UK HSE INDG143 / MHOR 1992</b></div>
+          <div class="meta-pill">BIOMECHANICAL LIMIT · <b>NIOSH 3,400 N Action Threshold</b></div>
+          <div class="meta-pill">PLATFORM · <b>WebGL 360° Panoramic Simulation</b></div>
+        </div>
+
+        <div class="cta-buttons-row">
+          <button class="btn-primary-action" onclick="goToAuth('login')">Begin Training Session →</button>
+          <button class="btn-secondary-action" onclick="quickGuestDemo()">⚡ Quick Guest Demo Launch</button>
+          <button class="btn-secondary-action" onclick="openAdminPortal()">Admin Command Center 🔒</button>
+        </div>
+      </section>
+
+      <section class="features-grid" id="featuresSection">
+        <div class="feature-box">
+          <div class="fnum">01 / IMMERSIVE REALISM</div>
+          <h4>360° Photographic Warehouse</h4>
+          <p>Explore an authentic industrial warehouse floor, loading dock, and high-bay racking aisles in full 360° spherical perspective with realistic perspective floor reticles.</p>
+        </div>
+        <div class="feature-box">
+          <div class="fnum">02 / BIOMECHANICAL MODEL</div>
+          <h4>Live L5/S1 Spinal Compression</h4>
+          <p>Real-time calculation of lumbar vertebral disc shear forces. Calibrated to the NIOSH 3,400 N action limit with instant clinical risk feedback on improper stoop postures.</p>
+        </div>
+        <div class="feature-box">
+          <div class="fnum">03 / AUDIT COMPLIANCE</div>
+          <h4>Verifiable HSE Certification</h4>
+          <p>Automated score weighting, worker competency register, and formal printable A4 training audit certificates equipped with dual sign-off blocks for corporate safety compliance.</p>
+        </div>
+      </section>
+
+      <section class="scenarios-preview-section" id="scenariosSection">
+        <h3 class="scenarios-preview-title">6 Core Industrial Manual Handling Scenarios</h3>
+        <p style="color:var(--text-secondary); font-size:13px; margin:-8px 0 16px; text-align:center;">Click any component below to launch directly into its 360° ergonomic evaluation.</p>
+        <div class="scenarios-preview-grid">
+          <div class="scenario-preview-card" onclick="launchScenarioFromLanding(0)" title="Launch 360° Assessment: 1. The Racking Lift">
+            <div>
+              <strong style="display:block; font-size:14px; margin-bottom:4px;">1. The Racking Lift</strong>
+              <span style="font-size:12px; color:var(--text-secondary);">Cast-Iron Ventilated Brake Rotors Carton</span>
+            </div>
+            <div class="weight-pill">14.0 KG</div>
+          </div>
+          <div class="scenario-preview-card" onclick="launchScenarioFromLanding(1)" title="Launch 360° Assessment: 2. The Overhead Reach">
+            <div>
+              <strong style="display:block; font-size:14px; margin-bottom:4px;">2. The Overhead Reach</strong>
+              <span style="font-size:12px; color:var(--text-secondary);">High-Rack Polypropylene Parts Tote &amp; Flanges</span>
+            </div>
+            <div class="weight-pill">10.0 KG</div>
+          </div>
+          <div class="scenario-preview-card" onclick="launchScenarioFromLanding(2)" title="Launch 360° Assessment: 3. The Heavy Pallet Load">
+            <div>
+              <strong style="display:block; font-size:14px; margin-bottom:4px;">3. The Heavy Pallet Load</strong>
+              <span style="font-size:12px; color:var(--text-secondary);">EV Lithium-Ion Traction Battery Pack</span>
+            </div>
+            <div class="weight-pill">30.0 KG</div>
+          </div>
+          <div class="scenario-preview-card" onclick="launchScenarioFromLanding(3)" title="Launch 360° Assessment: 4. The Loading Bay Pivot">
+            <div>
+              <strong style="display:block; font-size:14px; margin-bottom:4px;">4. The Loading Bay Pivot</strong>
+              <span style="font-size:12px; color:var(--text-secondary);">Automotive Transmission in Yellow Transit Cradle</span>
+            </div>
+            <div class="weight-pill">16.0 KG</div>
+          </div>
+          <div class="scenario-preview-card" onclick="launchScenarioFromLanding(4)" title="Launch 360° Assessment: 5. The Awkward Tailpipe">
+            <div>
+              <strong style="display:block; font-size:14px; margin-bottom:4px;">5. The Awkward Tailpipe</strong>
+              <span style="font-size:12px; color:var(--text-secondary);">2.1m Dual Stainless Steel Exhaust Piping</span>
+            </div>
+            <div class="weight-pill">18.0 KG</div>
+          </div>
+          <div class="scenario-preview-card" onclick="launchScenarioFromLanding(5)" title="Launch 360° Assessment: 6. Aisle Intersection Risk">
+            <div>
+              <strong style="display:block; font-size:14px; margin-bottom:4px;">6. Aisle Intersection Risk</strong>
+              <span style="font-size:12px; color:var(--text-secondary);">Pedestrian Safety Pylon &amp; Barcode Terminal</span>
+            </div>
+            <div class="weight-pill">6.0 KG</div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="landing-footer">
+      <div>University of Sunderland · CET257 Enterprise Project · SafeLift 360 Team</div>
+      <div style="display:flex; gap:16px;">
+        <span onclick="openAdminPortal()" style="cursor:pointer; color:var(--amber-primary);">Administrator Access</span>
+        <span>•</span>
+        <span>Version 2.4 VisionOS Production Build</span>
+      </div>
+    </footer>
+  </div>
+
+  <!-- ===================== 2. AUTHENTICATION SCREEN ===================== -->
+  <div class="screen hidden" id="authScreen">
+    <div class="auth-box">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:18px;">
+        <button class="mini-btn" onclick="goToLanding()" style="font-size:11px; padding:6px 12px;">← Back to Home</button>
+        <span style="font-size:11px; color:var(--amber-primary); font-weight:700;">SECURE ACCESS</span>
+      </div>
+
+      <div class="auth-nav-tabs">
+        <div class="auth-nav-tab active" id="tabLogin" onclick="switchAuthTab('login')">Sign In</div>
+        <div class="auth-nav-tab" id="tabSignup" onclick="switchAuthTab('signup')">Sign Up</div>
+      </div>
+
+      <div class="form-group">
+        <label id="accountIdLabel">Worker ID / Username</label>
+        <input type="text" id="authUsername" placeholder="Enter your ID or username" autocomplete="username" onkeydown="if(event.key==='Enter') handleAuthSubmit()" />
+      </div>
+
+      <div class="form-group">
+        <label>Password</label>
+        <div class="pw-wrapper">
+          <input type="password" id="authPassword" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter') handleAuthSubmit()" />
+          <button type="button" class="pw-toggle-btn" id="pwToggle" onclick="togglePasswordVisibility()">Show</button>
+        </div>
+      </div>
+
+      <div class="auth-msg" id="authMsg"></div>
+
+      <button class="btn-primary-action" id="authSubmitBtn" onclick="handleAuthSubmit()" style="width:100%; justify-content:center; margin-top:8px;">Sign In</button>
+    </div>
+  </div>
+
+  <!-- ===================== 3. TRAINEE DASHBOARD SCREEN ===================== -->
+  <div class="screen hidden" id="dashboardScreen">
+    <div class="hazard-strip"></div>
+    <div class="dash-container">
+      <div class="dash-header-bar">
+        <div>
+          <div style="font-size:11px; font-weight:800; color:var(--amber-primary); letter-spacing:1px; text-transform:uppercase; margin-bottom:4px;">HSE Manual Handling Coursework</div>
+          <h2 style="font-size:24px; font-weight:800;">Trainee Learning Dashboard</h2>
+        </div>
+        <div style="display:flex; align-items:center; gap:12px;">
+          <div class="user-pill" id="userBadgePill">
+            <div class="user-avatar" id="dashAvatar">A</div>
+            <div style="text-align:left;">
+              <div style="font-size:12px; font-weight:800;" id="dashUsername">Alex Taylor</div>
+              <div style="font-size:10px; color:var(--text-secondary);" id="dashRole">Warehouse Operative</div>
+            </div>
+          </div>
+          <button class="mini-btn" onclick="logout()" style="padding:8px 12px;">Log Out</button>
+        </div>
+      </div>
+
+      <div class="dash-hero-card">
+        <div>
+          <span style="font-size:11px; font-weight:800; color:var(--amber-primary); letter-spacing:1.5px; text-transform:uppercase;">ACTIVE MODULE · HSE INDG143 COMPLIANCE</span>
+          <h1 style="font-size:32px; font-weight:800; margin:8px 0 12px; text-transform:uppercase;">Warehouse 360° Ergonomics Assessment</h1>
+          <p style="color:var(--text-secondary); font-size:14px; max-width:620px; line-height:1.6;">
+            Navigate the 360° warehouse racking aisle, assess the 6 designated manual handling loads, and select the optimal kinetic lifting posture to minimize L5/S1 lumbar compression.
+          </p>
+        </div>
+        <button class="btn-primary-action" onclick="launchSimulator()" style="font-size:15px; padding:16px 32px;">🚀 Launch 360° Simulation</button>
+      </div>
+
+      <div class="dash-stats-grid">
+        <div class="dash-stat-card">
+          <div class="dash-stat-num" id="dashStatAttempts">0</div>
+          <div class="dash-stat-lbl">Training Attempts</div>
+        </div>
+        <div class="dash-stat-card">
+          <div class="dash-stat-num" id="dashStatCleared">0 / 6</div>
+          <div class="dash-stat-lbl">Scenarios Cleared</div>
+        </div>
+        <div class="dash-stat-card">
+          <div class="dash-stat-num" id="dashStatScore">0 PTS</div>
+          <div class="dash-stat-lbl">Highest Readiness Score</div>
+        </div>
+        <div class="dash-stat-card">
+          <div class="dash-stat-num" id="dashStatTime">0.0 m</div>
+          <div class="dash-stat-lbl">Total Time Trained</div>
+        </div>
+      </div>
+
+      <div class="briefing-card">
+        <h3>Training Objectives &amp; Sequence Briefing</h3>
+        <ol>
+          <li><strong>Step into the 360° Warehouse:</strong> Use mouse drag or touch drag on mobile/tablets to pan 360° horizontally and 180° vertically.</li>
+          <li><strong>Identify the 6 Real Loads:</strong> Locate components ranging from 6.0 kg to 30.0 kg (EV Battery on Euro Pallet, Transmission in Cradle, Brake Rotors Carton, etc.).</li>
+          <li><strong>Choose Kinetic Postures:</strong> Evaluate Stoop vs. Squat vs. Drag options to observe real-time L5/S1 spinal vertebral compression forces.</li>
+          <li><strong>Achieve Compliance:</strong> Maintain compression well below the <strong>NIOSH 3,400 N Action Limit</strong> to earn your verified training certificate.</li>
+        </ol>
+      </div>
+
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+        <div style="display:flex; gap:10px;">
+          <button class="btn-secondary-action" onclick="openEquipmentMenu()">📋 Browse Loads Directory (M)</button>
+          <button class="btn-secondary-action" onclick="showDebriefModal()">📜 View HSE Audit Certificate</button>
+        </div>
+        <button class="mini-btn" onclick="resetSimulation()" style="color:var(--text-secondary);">Reset Session Progress</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== 4. 360° SIMULATOR SCREEN ===================== -->
+  <div class="screen hidden" id="simulatorScreen">
+    <!-- 360 SPHERICAL WEBGL VIEWPORT -->
+<div id="webgl-container">
+  <div class="vignette-overlay"></div>
+  <div class="hotspots-layer" id="hotspotsOverlay"></div>
+</div>
+
+<!-- FIRST-TIME USER ONBOARDING HINT -->
+<div class="onboarding-hint" id="onboardingHint">
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+  <span>Drag to explore 360° &bull; Press keys 1–6 or click real equipment beacons</span>
+</div>
+
+<!-- TOP SPATIAL HUD (APPLE VISION-OS FLOATING PILL) -->
+<div class="spatial-hud-top">
+  <button class="hud-back-btn" id="hudBackBtn" onclick="exitToDashboard()" title="Return to Dashboard">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M19 12H5M12 19l-7-7 7-7"/>
+    </svg>
+    <span id="hudBackBtnText">Dashboard</span>
+  </button>
+  <div class="hud-divider"></div>
+  <button class="hud-menu-btn" onclick="toggleEquipmentMenu()" title="Open Loads & Equipment Catalog [M]">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+      <path d="M4 6h16M4 12h16M4 18h16"/>
+    </svg>
+    <span>Load Catalog</span>
+  </button>
+  <div class="hud-divider"></div>
+  <div class="hud-brand">
+    SafeLift<span>360</span>
+    <span class="hud-brand-badge">VisionOS</span>
+  </div>
+  <div class="hud-divider"></div>
+  <div class="hud-stat">
+    <span>Cleared:</span>
+    <strong id="hudClearedCount">0 / 6</strong>
+  </div>
+  <div class="hud-divider"></div>
+  <div class="hud-stat">
+    <span>Readiness:</span>
+    <div class="score-badge" id="hudScoreBadge">0 PTS</div>
+  </div>
+  <div class="hud-divider"></div>
+  <div class="hud-stat">
+    <span>Time:</span>
+    <strong id="hudTimer">00:00</strong>
+  </div>
+  <div class="hud-divider"></div>
+  <button class="hud-action-btn" id="btnAudio" onclick="toggleAudio()" title="Toggle Audio (M)">
+    <svg id="svgAudioIcon" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+  </button>
+  <button class="hud-action-btn" id="btnGyro" onclick="toggleGyroscope()" title="Toggle Tablet Gyroscope / Motion Orbit [G]">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
+  </button>
+    <button class="hud-action-btn" id="btnFullscreen" onclick="toggleFullscreen()" title="Toggle Fullscreen (F)">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+  </button>
+</div>
+
+<!-- BOTTOM SPATIAL NAVIGATION PILL -->
+<div class="spatial-hud-bottom">
+  <div class="compass-dial" id="compassHeading">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"/></svg>
+    <span id="headingDegrees">045° NE</span>
+  </div>
+  <button class="bottom-menu-btn" onclick="toggleEquipmentMenu()" title="Open Loads & Equipment Menu [M]">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+    <span>Equipment Menu</span>
+  </button>
+  <div class="quick-jump-btns">
+    <div class="jump-btn" onclick="jumpToHotspot(0)" title="1. The Racking Lift [Press 1]">1</div>
+    <div class="jump-btn" onclick="jumpToHotspot(1)" title="2. The Overhead Reach [Press 2]">2</div>
+    <div class="jump-btn" onclick="jumpToHotspot(2)" title="3. The EV Battery Module [Press 3]">3</div>
+    <div class="jump-btn" onclick="jumpToHotspot(3)" title="4. The Loading Bay Pivot [Press 4]">4</div>
+    <div class="jump-btn" onclick="jumpToHotspot(4)" title="5. The Awkward Tailpipe [Press 5]">5</div>
+    <div class="jump-btn" onclick="jumpToHotspot(5)" title="6. Aisle Intersection Crossing [Press 6]">6</div>
+  </div>
+</div>
+
+<!-- EQUIPMENT & LOADS CATALOG MENU MODAL -->
+<div class="modal-overlay" id="equipmentMenuModal">
+  <div class="glass-card-sheet equipment-catalog-sheet">
+    <div class="modal-header">
+      <div>
+        <div class="modal-kicker">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+          <span>HSE MANUAL HANDLING SPECIFICATION CATALOG</span>
+        </div>
+        <h2 class="modal-title">Warehouse Loads &amp; Ergonomic Directory</h2>
+      </div>
+      <div class="modal-close-btn" onclick="closeEquipmentMenu()" title="Close [Esc]">&times;</div>
+    </div>
+
+    <p style="color:var(--text-secondary); font-size:13px; line-height:1.5; margin-bottom: 16px;">
+      Explore the physical inventory of warehouse loads below. Click <strong>"Look in 360°"</strong> to navigate the camera to the load's location, or click <strong>"Lift Assessment"</strong> to evaluate spinal compression and safe lifting technique.
+    </p>
+
+    <!-- Dynamic 6-Card Equipment Grid -->
+    <div class="catalog-grid" id="catalogGrid"></div>
+
+    <div style="margin-top:20px; display:flex; justify-content:space-between; align-items:center; border-top:1px solid var(--glass-border); padding-top:16px;">
+      <button class="action-btn secondary" onclick="toggleHotspotsVisibility()" id="btnCatalogToggleMarkers">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+        <span id="txtCatalogToggleMarkers">Toggle 3D Scene Markers</span>
+      </button>
+      <div style="display:flex; gap:10px;">
+        <button class="action-btn secondary" onclick="showDebriefModal()">
+          Audit Report
+        </button>
+        <button class="action-btn primary" onclick="closeEquipmentMenu()">
+          Resume 360 View [Esc]
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- INTERACTIVE POSTURE CHALLENGE MODAL SHEET -->
+<div class="modal-overlay" id="postureModal">
+  <div class="glass-card-sheet">
+    <div class="modal-header">
+      <div>
+        <div class="modal-kicker">
+          <span id="modalHseTag">HSE INDG143 COMPLIANCE</span>
+          <span>&bull;</span>
+          <span id="modalWeightTag">14 KG LOAD</span>
+        </div>
+        <h2 class="modal-title" id="modalTitle">The Racking Lift</h2>
+      </div>
+      <div class="modal-close-btn" onclick="closePostureModal()" title="Close [Esc]">&times;</div>
+    </div>
+
+    <!-- REALISTIC EQUIPMENT INSPECTION PANEL -->
+    <div class="equipment-visual-card">
+      <div class="equipment-render-box" id="equipmentRenderBox">
+        <!-- Injected Realistic Component Graphic -->
+      </div>
+      <div class="equipment-specs-box">
+        <h4 id="equipmentKicker">COMPONENT PROFILE</h4>
+        <h3 id="equipmentName">Cast-Iron Ventilated Brake Rotors</h3>
+        <div class="spec-row">
+          <span>Gross Mass:</span>
+          <strong id="specMass">14.0 kg (30.8 lbs)</strong>
+        </div>
+        <div class="spec-row">
+          <span>Dimensions:</span>
+          <strong id="specDim">420 x 320 x 280 mm</strong>
+        </div>
+        <div class="spec-row">
+          <span>Center of Gravity:</span>
+          <strong id="specCog">Low / Symmetrical</strong>
+        </div>
+        <div class="spec-row">
+          <span>Handling Directive:</span>
+          <strong id="specDirective" style="color:var(--amber-primary);">Kinetic Squat (Avoid Stoop)</strong>
+        </div>
+      </div>
+    </div>
+
+    <p id="modalDescription" style="font-size: 13.5px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 10px;"></p>
+
+    <!-- 3 KINETIC DECISION CARDS -->
+    <div class="choice-cards-container" id="choiceCardsContainer"></div>
+
+    <!-- LIVE BIOMECHANICAL SPINE GAUGE WITH NIOSH BENCHMARKS -->
+    <div class="biomech-panel" id="biomechPanel">
+      <div class="spine-svg-wrapper">
+        <svg viewBox="0 0 54 100" width="54" height="100">
+          <!-- Vertebrae -->
+          <rect id="spineCervical" x="14" y="5" width="12" height="12" rx="3" fill="#30d158" />
+          <rect id="spineThoracic1" x="12" y="20" width="16" height="14" rx="3" fill="#30d158" />
+          <rect id="spineThoracic2" x="11" y="37" width="18" height="14" rx="3" fill="#30d158" />
+          <rect id="spineLumbar" x="9" y="54" width="22" height="16" rx="4" fill="#30d158" />
+          <rect id="spineL5S1" x="8" y="73" width="24" height="18" rx="4" fill="#30d158" />
+          <circle cx="20" cy="94" r="3" fill="#64748b" />
+          <!-- NIOSH 3,400 N Action Limit Marker line -->
+          <line x1="33" y1="73" x2="52" y2="73" stroke="#ff453a" stroke-width="1.8" stroke-dasharray="2 2" />
+          <text x="35" y="70" font-size="5" fill="#ff453a" font-weight="900" font-family="sans-serif">NIOSH</text>
+          <text x="35" y="78" font-size="4.5" fill="#ff453a" font-weight="700" font-family="sans-serif">3,400N</text>
+        </svg>
+      </div>
+      <div class="biomech-details">
+        <div class="biomech-title">L5/S1 Lumbar Vertebral Compression</div>
+        <div style="display:flex; align-items:baseline; gap:12px;">
+          <div class="biomech-load-value" id="biomechLoadVal" style="color: var(--green-safe);">85 kg</div>
+          <div id="spineNioshStatusBadge" style="font-size:11px; font-weight:800; padding:2px 8px; border-radius:6px; background:rgba(48,209,88,0.2); color:var(--green-safe);">SAFE ERGONOMIC ZONE</div>
+        </div>
+        <div class="biomech-text" id="biomechExplanation">Select a lifting technique above to evaluate real-time spinal forces.</div>
+        
+        <div class="spine-threshold-legend">
+          <div class="threshold-tag">
+            <span class="threshold-indicator-dot" style="background:#30d158;"></span>
+            <span>&le; 200 kg (~2,000 N): Optimal Functional Range (Safe)</span>
+          </div>
+          <div class="threshold-tag">
+            <span class="threshold-indicator-dot" style="background:#ff9f0a;"></span>
+            <span>200&ndash;340 kg (2,000&ndash;3,400 N): Moderate Spinal Load (Caution)</span>
+          </div>
+          <div class="threshold-tag">
+            <span class="threshold-indicator-dot" style="background:#ff453a;"></span>
+            <span>&gt; 340 kg (&gt; 3,400 N): NIOSH Action Limit Exceeded (High Herniation Risk)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DYNAMIC CLINICAL RISK / REMEDIATION ALERT CALLOUT -->
+    <div class="clinical-risk-box" id="clinicalRiskBox" style="display:none;"></div>
+
+    <div class="action-footer">
+      <button class="btn-secondary" onclick="closePostureModal()">Review 360 View [Esc]</button>
+      <button class="btn-primary" id="btnAdvanceModal" style="display:none;" onclick="advanceFromModal()">Confirm &amp; Proceed [Enter]</button>
+    </div>
+  </div>
+</div>
+
+<!-- SESSION RESTORED TOAST NOTIFICATION -->
+<div class="session-toast" id="sessionToast">
+  <svg width="15" height="15" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+  <span id="sessionToastMsg">Training Session Restored from Auto-Save</span>
+</div>
+
+</div>
+  </div>
+
+  <!-- ===================== 5. ADMIN AUTHENTICATION MODAL ===================== -->
+  <div class="screen hidden" id="adminAuthScreen">
+    <div class="auth-box" style="border-top: 3px solid var(--apple-blue); margin: auto;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:18px;">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span style="font-size:11px; font-weight:800; color:var(--apple-blue); letter-spacing:1px;">ADMINISTRATOR COMMAND CENTER</span>
+        </div>
+        <button class="mini-btn" onclick="goToLanding()" style="padding:4px 10px; font-size:11.5px;">✕ Close</button>
+      </div>
+      <h3 style="font-size:20px; font-weight:800; margin-bottom:8px; text-transform:uppercase;">Manager &amp; Assessor Portal</h3>
+      <p style="font-size:12.5px; color:var(--text-secondary); margin-bottom:14px;">
+        Access workforce training records, safety competency analytics, and compliance CSV export.
+      </p>
+
+      <!-- CREDENTIALS DISPLAY BANNER -->
+      <div class="admin-cred-banner">
+        <div class="cred-banner-header">
+          <div class="cred-key-badge">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            <span>ADMINISTRATOR LOGIN CREDENTIALS</span>
+          </div>
+          <span style="font-size:10.5px; color:var(--apple-blue); font-weight:600;">Authorized Access</span>
+        </div>
+        <div class="cred-banner-grid">
+          <div class="cred-col" onclick="fillAdminCreds()" title="Click to autofill ID">
+            <span class="cred-label">Admin ID:</span>
+            <span class="cred-val">admin</span>
+          </div>
+          <div class="cred-col" onclick="fillAdminCreds()" title="Click to autofill Password">
+            <span class="cred-label">Password:</span>
+            <span class="cred-val">password@12</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Administrator ID</label>
+        <input type="text" id="adminUsername" value="admin" autocomplete="username" onkeydown="if(event.key==='Enter') handleAdminLogin()" />
+      </div>
+      <div class="form-group">
+        <label>Administrator Password</label>
+        <div class="pw-wrapper">
+          <input type="password" id="adminPassword" value="password@12" autocomplete="current-password" onkeydown="if(event.key==='Enter') handleAdminLogin()" />
+          <button type="button" class="pw-toggle-btn" id="adminPwToggle" onclick="toggleAdminPasswordVisibility()">Show</button>
+        </div>
+      </div>
+
+      <div class="auth-msg" id="adminAuthMsg"></div>
+
+      <button class="btn-primary-action" onclick="handleAdminLogin()" style="width:100%; justify-content:center; margin-bottom:12px;">Authorize Command Center →</button>
+      <button class="btn-secondary-action" onclick="goToLanding()" style="width:100%; justify-content:center; font-size:12px;">← Return to Home Page</button>
+    </div>
+  </div>
+
+  <!-- ===================== 6. ADMIN COMMAND CENTER DASHBOARD ===================== -->
+  <div class="screen hidden" id="adminScreen">
+    <div class="hazard-strip"></div>
+    <div class="admin-shell">
+      <aside class="admin-sidebar">
+        <div>
+          <div style="font-size:20px; font-weight:800; color:var(--text-primary); margin-bottom:4px;">SAFELIFT <span style="color:var(--amber-primary);">360</span></div>
+          <div style="font-size:10px; font-weight:800; color:var(--amber-primary); letter-spacing:1px; text-transform:uppercase;">COMMAND CENTER</div>
+
+          <div style="margin-top:30px; display:flex; flex-direction:column; gap:8px;">
+            <button class="btn-secondary-action" style="width:100%; justify-content:flex-start; font-size:12px; padding:10px 14px;" onclick="adminScroll('adminKpis')">▦ Overview</button>
+            <button class="btn-secondary-action" style="width:100%; justify-content:flex-start; font-size:12px; padding:10px 14px;" onclick="adminScroll('adminCompetency')">◒ Competency Map</button>
+            <button class="btn-secondary-action" style="width:100%; justify-content:flex-start; font-size:12px; padding:10px 14px;" onclick="adminScroll('adminWorkerRegister')">♙ Worker Register</button>
+            <button class="btn-secondary-action" style="width:100%; justify-content:flex-start; font-size:12px; padding:10px 14px;" onclick="adminScroll('adminActivityLog')">◷ Activity Log</button>
+          </div>
+        </div>
+
+        <div>
+          <div style="background:#f8f9fb; border:1px solid var(--border-subtle); border-radius:12px; padding:14px; margin-bottom:14px; font-size:11px; color:var(--text-secondary); text-align:left;">
+            SYSTEM STATUS<br><strong style="color:var(--green-safe);">● OPERATIONAL</strong><br><br>
+            Database: Local Training Store
+          </div>
+          <button class="btn-secondary-action" onclick="goToLanding()" style="width:100%; justify-content:center; font-size:12px; padding:10px;">Return to Site</button>
+          <button class="mini-btn" onclick="logout()" style="width:100%; margin-top:8px; padding:8px;">Admin Log Out</button>
+        </div>
+      </aside>
+
+      <main class="admin-main">
+        <div class="admin-top-bar">
+          <div>
+            <div style="font-size:11px; font-weight:800; color:var(--amber-primary); letter-spacing:1.5px; text-transform:uppercase;">Safety Intelligence · Management Portal</div>
+            <h1 style="font-size:32px; font-weight:800; margin:4px 0 8px;">Workforce Compliance Command Center</h1>
+            <p style="color:var(--text-secondary); font-size:13px;">Monitor operative engagement, posture mastery, and HSE manual handling compliance.</p>
+          </div>
+          <div class="admin-actions">
+            <button class="btn-primary-action" onclick="launchSimulator()" style="font-size:12px; padding:9px 16px;">🚀 Enter 360 Floor</button>
+            <button class="btn-secondary-action" onclick="exportAdminCSV()" style="font-size:12px; padding:9px 16px;">⇩ Export CSV</button>
+            <button class="btn-secondary-action" onclick="exportWorkforceXapiPackage()" style="font-size:12px; padding:9px 16px;">⚡ Export Workforce xAPI</button>
+            <button class="btn-secondary-action" onclick="renderAdmin()" style="font-size:12px; padding:9px 16px;">↻ Refresh</button>
+          </div>
+        </div>
+
+        <div class="kpi-grid" id="adminKpis">
+          <div class="kpi-card">
+            <div class="kpi-label">Registered Workers</div>
+            <div class="kpi-num" id="adminKpiWorkers">0</div>
+            <div class="kpi-sub" id="adminKpiActive">0 active</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Total Logins</div>
+            <div class="kpi-num" id="adminKpiLogins">0</div>
+            <div class="kpi-sub">Across all worker accounts</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Training Attempts</div>
+            <div class="kpi-num" id="adminKpiAttempts">0</div>
+            <div class="kpi-sub" id="adminKpiMinutes">0.0 total minutes</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Average Readiness Score</div>
+            <div class="kpi-num" id="adminKpiAvgScore">0 <span style="font-size:14px; color:var(--text-secondary);">/ 100</span></div>
+            <div class="kpi-sub">Overall competency index</div>
+          </div>
+        </div>
+
+        <section class="admin-panel" id="adminCompetency">
+          <div class="panel-head">
+            <h3>Safety Competency Map</h3>
+            <span style="font-size:11px; color:var(--text-secondary);">Percentage Mastery by Scenario</span>
+          </div>
+          <div class="panel-body" id="competencyMapBody">
+            <!-- Populated via JavaScript -->
+          </div>
+        </section>
+
+        <section class="admin-panel" id="adminWorkerRegister">
+          <div class="panel-head">
+            <h3>Worker Performance Register</h3>
+            <span style="font-size:11px; color:var(--text-secondary);">Individual Trainee Audit Records</span>
+          </div>
+          <div class="panel-body" style="overflow-x:auto;">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Worker ID</th>
+                  <th>Logins</th>
+                  <th>Attempts</th>
+                  <th>Total Mins</th>
+                  <th>Best Score</th>
+                  <th>Status</th>
+                  <th>Last Active</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="adminWorkerTableBody">
+                <!-- Populated via JavaScript -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="admin-panel" id="adminActivityLog">
+          <div class="panel-head">
+            <h3>Secure Activity &amp; Audit Log</h3>
+            <button class="mini-btn" onclick="clearActivityLog()">Clear Log</button>
+          </div>
+          <div class="panel-body" style="overflow-x:auto;">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Timestamp</th>
+                  <th>Worker</th>
+                  <th>Event</th>
+                  <th>Outcome</th>
+                </tr>
+              </thead>
+              <tbody id="adminActivityTableBody">
+                <!-- Populated via JavaScript -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <div style="display:flex; justify-content:flex-end; margin-top:20px;">
+          <button class="mini-btn" onclick="clearAllWorkerData()" style="color:var(--red-hazard); border-color:rgba(255,69,58,0.4); padding:8px 14px;">Delete All Trainee Records</button>
+        </div>
+      </main>
+    </div>
+  
+
+  <!-- AUDIT DEBRIEF / OFFICIAL HSE COMPLIANCE CERTIFICATE MODAL -->
+<div class="modal-overlay" id="debriefModal">
+  <div class="glass-card-sheet cert-sheet">
+    <div class="modal-close-bar no-print">
+      <div class="modal-close-btn" onclick="closeDebriefModal()" title="Close [Esc]">&times;</div>
+    </div>
+
+    <!-- OFFICIAL CERTIFICATE CONTAINER -->
+    <div class="certificate-frame">
+      <!-- INSTITUTIONAL HEADER -->
+      <header class="cert-header">
+        <div class="cert-crest-row">
+          <div class="cert-crest-badge">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              <path d="m9 12 2 2 4-4"/>
+            </svg>
+            <span>UK HSE COMPLIANCE VERIFICATION</span>
+          </div>
+          <div class="cert-meta-tag">MHOR 1992 / INDG143 ACCREDITED</div>
+        </div>
+
+        <div class="cert-institution">UNIVERSITY OF SUNDERLAND &bull; CET257 ENTERPRISE PROJECT</div>
+        <div class="cert-client-name">Automotive Logistics &amp; Warehousing Solutions Ltd</div>
+        <h1 class="cert-main-title">CERTIFICATE OF TRAINING COMPETENCY</h1>
+        <div class="cert-subtitle">360° Industrial Virtual Reality Manual Handling &amp; Spinal Ergonomics Assessment</div>
+
+        <div class="cert-serial-bar">
+          <div>CERTIFICATE NO: <strong id="certSerialNo">UK-HSE-MH-2026-8402</strong></div>
+          <div>AUDIT STATUS: <strong style="color:var(--green-safe);">VERIFIED PASS</strong></div>
+          <div>ISSUE DATE: <strong id="certDisplayDate">September 24, 2026</strong></div>
+        </div>
+      </header>
+
+      <!-- ATTESTATION TEXT -->
+      <div class="cert-attestation-text">
+        This is to officially certify that the operative named below has demonstrated practical competency in warehouse ergonomic risk evaluation, kinetic manual handling techniques, and biomechanical posture optimization to effectively prevent Musculoskeletal Disorders (MSDs):
+      </div>
+
+      <!-- TRAINEE & ASSESSMENT SPECIFICATIONS -->
+      <div class="cert-fields-grid">
+        <div class="cert-field-group">
+          <label>Trainee Full Name:</label>
+          <input type="text" class="cert-field-input" id="certTraineeName" value="Alex Taylor" />
+        </div>
+        <div class="cert-field-group">
+          <label>Employee / Badge ID:</label>
+          <input type="text" class="cert-field-input" id="certEmployeeId" value="EMP-8402" />
+        </div>
+        <div class="cert-field-group">
+          <label>Warehouse Facility / Bay:</label>
+          <input type="text" class="cert-field-input" id="certFacility" value="Global Logistics Hub - Bay 4" />
+        </div>
+        <div class="cert-field-group">
+          <label>Lead Assessor / HSE Trainer:</label>
+          <input type="text" class="cert-field-input" id="certAssessor" value="Marcus Vance, GradIOSH" />
+        </div>
+        <div class="cert-field-group">
+          <label>Issue Date:</label>
+          <div class="cert-field-val" id="certIssueDate">September 24, 2026</div>
+        </div>
+        <div class="cert-field-group">
+          <label>Certification Validity:</label>
+          <div class="cert-field-val" id="certExpiryDate" style="color:var(--green-safe); font-weight:800;">12 Months (Valid Thru Sep 2027)</div>
+        </div>
+      </div>
+
+      <!-- BIOMECHANICAL AUDIT SCORECARD -->
+      <div class="audit-metrics-grid">
+        <div class="audit-metric-box">
+          <div class="audit-metric-num" id="debriefFinalScore" style="color: var(--green-safe);">600 PTS</div>
+          <div class="audit-metric-lbl">Total Score (Distinction)</div>
+        </div>
+        <div class="audit-metric-box">
+          <div class="audit-metric-num" id="debriefReadiness">100%</div>
+          <div class="audit-metric-lbl">Readiness Rating (Compliant)</div>
+        </div>
+        <div class="audit-metric-box">
+          <div class="audit-metric-num" id="debriefTime">04:12</div>
+          <div class="audit-metric-lbl">Session Time (&lt;8m Target)</div>
+        </div>
+        <div class="audit-metric-box">
+          <div class="audit-metric-num" style="color: var(--green-safe);">&lt; 2,000 N</div>
+          <div class="audit-metric-lbl">L5/S1 Spinal Load (NIOSH Safe)</div>
+        </div>
+      </div>
+
+      <!-- 6 ASSESSED INDUSTRIAL LOADS CHECKLIST -->
+      <div class="cert-scenarios-section">
+        <h4 class="cert-section-kicker">ASSESSED INDUSTRIAL LOADS &amp; BIOMECHANICAL OUTCOMES</h4>
+        <ul class="hotspot-checklist" id="debriefChecklist"></ul>
+      </div>
+
+      <!-- LEGAL ATTESTATION PARAGRAPH -->
+      <div class="cert-legal-text">
+        The operative maintained L5/S1 vertebral compression safely below the <strong>NIOSH 3,400 N Action Limit</strong> across all assessed tasks, demonstrating correct knee flexion, spinal alignment, load proximity, and mechanical assist utilization per UK HSE INDG143 directives.
+      </div>
+
+      <!-- OFFICIAL SIGNATURE & VERIFICATION STAMP BLOCK -->
+      <div class="cert-sign-grid">
+        <div class="cert-sign-box">
+          <div class="cert-sign-space" id="certTraineeSign">Alex Taylor</div>
+          <div class="cert-sign-line"></div>
+          <div class="cert-sign-label">Trainee Signature &amp; Date</div>
+        </div>
+        <div class="cert-seal-box">
+          <div class="official-seal-stamp">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="m9 12 2 2 4-4"/>
+              <path d="M12 2v2M12 20v2M2 12h2M20 12h2"/>
+            </svg>
+            <div class="seal-text-circle">UK HSE &bull; CERTIFIED &bull; 2026</div>
+          </div>
+        </div>
+        <div class="cert-sign-box">
+          <div class="cert-sign-space">Marcus Vance, GradIOSH</div>
+          <div class="cert-sign-line"></div>
+          <div class="cert-sign-label">Lead HSE Assessor Signature &amp; Date</div>
+        </div>
+      </div>
+
+      <!-- FOOTER AUDIT NOTICE -->
+      <footer class="cert-footer-stamp">
+        Certified in compliance with UK Health &amp; Safety Executive (HSE INDG143 / MHOR 1992) standards. Verification record archived in Workforce Compliance Database.
+      </footer>
+    </div>
+
+    <!-- MODAL ACTIONS (SCREEN ONLY) -->
+    <div class="action-footer no-print" style="justify-content: center; gap: 16px; margin-top: 20px;">
+      <button class="btn-secondary" onclick="resetSimulation()">Restart Simulation</button>
+      <button class="btn-secondary" onclick="exportXapiStatement()" style="font-size:13px; padding:10px 18px; gap:6px;">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        <span>Export xAPI (LMS)</span>
+      </button>
+      <button class="btn-secondary" onclick="exportScormTelemetry()" style="font-size:13px; padding:10px 18px; gap:6px;">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        <span>Export SCORM CMI</span>
+      </button>
+      <button class="btn-primary" onclick="printComplianceCertificate()" style="font-size:13.5px; padding:10px 22px; gap:8px;">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 14h12v8H6z"/></svg>
+        <span>Print Audit Certificate</span>
+      </button>
+    </div>
+  </div>
+</div>
+</div>
+
+</div>
+
+
+  <script src="js/app.js"></script>
+</body>
+</html>
